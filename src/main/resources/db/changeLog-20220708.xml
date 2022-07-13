@@ -1,0 +1,34 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet author="michael" id="20220708_1">
+        <createTable tableName="events">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="team1" type="varchar(50)"/>
+            <column name="team2" type="varchar(50)"/>
+            <column name="score1" type="int" defaultValueNumeric="0"/>
+            <column name="score2" type="int" defaultValueNumeric="0"/>
+            <column name="last_update" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="scores">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="event_id" type="bigint"/>
+            <column name="score1" type="int" defaultValueNumeric="0"/>
+            <column name="score2" type="int" defaultValueNumeric="0"/>
+            <column name="score_timestamp" type="timestamp"/>
+            <column name="received_timestamp" type="timestamp"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="scores" baseColumnNames="event_id" constraintName="event_fk"
+                                 referencedTableName="events"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>
